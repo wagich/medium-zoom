@@ -27,7 +27,8 @@
 
     See https://github.com/francoischalifour/medium-zoom/issues/110
    */
-  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+  opacity: 1;
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1), opacity 300ms ease !important;
 }
 
 .medium-zoom-image--hidden {
@@ -39,4 +40,11 @@
   cursor: pointer;
   cursor: zoom-out;
   will-change: transform;
+}
+
+.medium-zoom-image-hd {
+  max-width: none !important;
+  max-height: none !important;
+  opacity: 0;
+  will-change: opacity, transform;
 }

@@ -20,6 +20,24 @@ storiesOf('attributes', module)
     }
   )
   .add(
+    'data-zoom-src with different aspect ratio',
+    () => `
+      <img
+        src="image-3.thumbnail-square.jpg"
+        data-zoom-src="image-3.jpg"
+      >
+
+      <script>
+        const zoom = mediumZoom('img');
+      </script>
+  `,
+    {
+      notes: {
+        markdown: `Zoom on an image having a \`data-zoom-src\` attribute with a different aspect ratio.`,
+      },
+    }
+  )
+  .add(
     'srcset',
     () => `
     <img

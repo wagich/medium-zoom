@@ -264,6 +264,51 @@ const mediumZoom = (selector, options = {}) => {
       active.zoomed.style.transform = transform
 
       if (active.zoomedHd) {
+        active.zoomed.style.opacity = 0
+
+        // correct aspect ratio of hd image and center-align it in relation to the thumbnail
+        var aspectRatio = naturalWidth / naturalHeight
+        if (aspectRatio >= 1) {
+          const currentWidth = active.zoomedHd.width
+          const correctedWidth = currentWidth * aspectRatio
+          active.zoomedHd.style.width = `${correctedWidth}px`
+          active.zoomedHd.style.marginLeft = `-${(correctedWidth -
+            currentWidth) /
+            2}px`
+        } else {
+          const currentHeight = active.zoomedHd.height
+          const correctedHeight = currentHeight / aspectRatio
+          active.zoomedHd.style.height = `${correctedHeight}px`
+          active.zoomedHd.style.marginTop = `-${(correctedHeight -
+            currentHeight) /
+            2}px`
+        }
+
+        const {
+          top,
+          left,
+          width,
+          height,
+        } = active.zoomedHd.getBoundingClientRect()
+
+        const scaleX = Math.min(naturalWidth, viewportWidth) / width
+        const scaleY = Math.min(naturalHeight, viewportHeight) / height
+        const scale = Math.min(scaleX, scaleY)
+        const translateX =
+          (-left +
+            (viewportWidth - width) / 2 +
+            zoomOptions.margin +
+            container.left) /
+          scale
+        const translateY =
+          (-top +
+            (viewportHeight - height) / 2 +
+            zoomOptions.margin +
+            container.top) /
+          scale
+        const transform = `scale(${scale}) translate3d(${translateX}px, ${translateY}px, 0)`
+
+        active.zoomedHd.style.opacity = 1
         active.zoomedHd.style.transform = transform
       }
     }
@@ -342,6 +387,7 @@ const mediumZoom = (selector, options = {}) => {
 
       if (active.original.getAttribute('data-zoom-src')) {
         active.zoomedHd = active.zoomed.cloneNode()
+        active.zoomedHd.classList.add('medium-zoom-image-hd')
 
         // Reset the `scrset` property or the HD image won't load.
         active.zoomedHd.removeAttribute('srcset')
@@ -374,6 +420,7 @@ const mediumZoom = (selector, options = {}) => {
         // zoomed (HD) image (like when `data-zoom-src` is specified).
         // Therefore the approach is quite similar.
         active.zoomedHd = active.zoomed.cloneNode()
+        active.zoomedHd.classList.add('medium-zoom-image-hd')
 
         // Resetting the sizes attribute tells the browser to load the
         // image best fitting the current viewport size, respecting the `srcset`.
@@ -449,6 +496,8 @@ const mediumZoom = (selector, options = {}) => {
 
       if (active.zoomedHd) {
         active.zoomedHd.style.transform = ''
+        active.zoomedHd.style.opacity = 0
+        active.zoomed.style.opacity = 1
       }
 
       // Fade out the template so it's not too abrupt
