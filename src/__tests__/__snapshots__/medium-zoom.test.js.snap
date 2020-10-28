@@ -353,6 +353,14 @@ exports[`open() open() with \`srcset\` renders correctly 1`] = `
     srcset="image-300x200.jpg 300w, image-600x400.jpg 600w, image-800x500.jpg 800w, image-1000x650.jpg 1000w, image-1200x800.jpg 1200w"
     style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px;"
   />
+  <div
+    class="medium-zoom-loader"
+    style="top: 0px; left: 0px; width: 0px; height: 0px; margin-left: 0px;"
+  >
+    <div
+      style="border-left-color: #eee;"
+    />
+  </div>
 </body>
 `;
 

@@ -3,6 +3,7 @@ import {
   isSvg,
   getImagesFromSelector,
   createOverlay,
+  createLoadingIndicator,
   cloneTarget,
   createCustomEvent,
 } from './utils'
@@ -268,6 +269,42 @@ const mediumZoom = (selector, options = {}) => {
       }
     }
 
+    const _addLoadingIndicator = () => {
+      const {
+        top,
+        left,
+        width,
+        height,
+      } = active.original.getBoundingClientRect()
+
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0
+      const scrollLeft =
+        window.pageXOffset ||
+        document.documentElement.scrollLeft ||
+        document.body.scrollLeft ||
+        0
+
+      // position indicator over the original (thumbnail) image,
+      // make it a centered square with the edge length corresponding to the shorter dimension of the image
+      loadingIndicator.style.top = `${top + scrollTop}px`
+      loadingIndicator.style.left = `${left + scrollLeft}px`
+
+      const smallestDimension = Math.min(width, height)
+      loadingIndicator.style.width = `${smallestDimension}px`
+      loadingIndicator.style.height = `${smallestDimension}px`
+      loadingIndicator.style.marginLeft = `${(width - smallestDimension) / 2}px`
+
+      // scale indicator based on original (thumbnail) image size, native size of the indicator is 100px
+      const scale = 1.5 / ((100 / smallestDimension) ^ 2)
+      loadingIndicator.style.transform = `scale(${scale})`
+
+      document.body.appendChild(loadingIndicator)
+    }
+
     return new Promise(resolve => {
       if (target && images.indexOf(target) === -1) {
         resolve(zoom)
@@ -358,6 +395,7 @@ const mediumZoom = (selector, options = {}) => {
           _animate()
         }
 
+        _addLoadingIndicator()
         // We need to access the natural size of the full HD
         // target as fast as possible to compute the animation.
         const getZoomTargetSize = setInterval(() => {
@@ -366,6 +404,7 @@ const mediumZoom = (selector, options = {}) => {
             active.zoomedHd.classList.add('medium-zoom-image--opened')
             active.zoomedHd.addEventListener('click', close)
             document.body.appendChild(active.zoomedHd)
+            document.body.removeChild(loadingIndicator)
             _animate()
           }
         }, 10)
@@ -383,6 +422,7 @@ const mediumZoom = (selector, options = {}) => {
         // value) for the load event to be fired.
         active.zoomedHd.removeAttribute('loading')
 
+        _addLoadingIndicator()
         // Wait for the load event of the hd image. This will fire if the image
         // is already cached.
         const loadEventListener = active.zoomedHd.addEventListener(
@@ -392,6 +432,7 @@ const mediumZoom = (selector, options = {}) => {
             active.zoomedHd.classList.add('medium-zoom-image--opened')
             active.zoomedHd.addEventListener('click', close)
             document.body.appendChild(active.zoomedHd)
+            document.body.removeChild(loadingIndicator)
             _animate()
           }
         )
@@ -512,6 +553,7 @@ const mediumZoom = (selector, options = {}) => {
   zoomOptions = {
     margin: 0,
     background: '#fff',
+    loadingIndicatorColor: '#eee',
     scrollOffset: 40,
     container: null,
     template: null,
@@ -519,6 +561,9 @@ const mediumZoom = (selector, options = {}) => {
   }
 
   const overlay = createOverlay(zoomOptions.background)
+  const loadingIndicator = createLoadingIndicator(
+    zoomOptions.loadingIndicatorColor
+  )
 
   document.addEventListener('click', _handleClick)
   document.addEventListener('keyup', _handleKeyUp)

@@ -118,6 +118,7 @@ describe('mediumZoom()', () => {
         expect(zoom.getOptions()).toEqual({
           margin: 0,
           background: '#fff',
+          loadingIndicatorColor: '#eee',
           scrollOffset: 40,
           container: null,
           template: null,
@@ -139,6 +140,7 @@ describe('mediumZoom()', () => {
       expect(zoom.getOptions()).toEqual({
         margin: 0,
         background: '#fff',
+        loadingIndicatorColor: '#eee',
         scrollOffset: 40,
         container: null,
         template: null,
@@ -155,6 +157,7 @@ describe('mediumZoom()', () => {
       expect(zoom.getOptions()).toEqual({
         margin: 0,
         background: '#fff',
+        loadingIndicatorColor: '#eee',
         scrollOffset: 40,
         container: null,
         template: null,
@@ -168,6 +171,7 @@ describe('mediumZoom()', () => {
       const options = {
         margin: 24,
         background: '#BADA55',
+        loadingIndicatorColor: '#ff00aa',
         scrollOffset: 124,
       }
       const zoom = mediumZoom(options)
@@ -176,6 +180,7 @@ describe('mediumZoom()', () => {
       expect(zoom.getOptions()).toEqual({
         margin: 24,
         background: '#BADA55',
+        loadingIndicatorColor: '#ff00aa',
         scrollOffset: 124,
         container: null,
         template: null,
@@ -199,6 +204,7 @@ describe('mediumZoom()', () => {
         expect(zoom.getOptions()).toEqual({
           margin: 0,
           background: '#BADA55',
+          loadingIndicatorColor: '#eee',
           scrollOffset: 40,
           container: null,
           template: null,
@@ -217,6 +223,7 @@ describe('mediumZoom()', () => {
         expect(zoom.getOptions()).toEqual({
           margin: 0,
           background: '#fff',
+          loadingIndicatorColor: '#eee',
           scrollOffset: 40,
           container: null,
           template: null,
@@ -238,6 +245,7 @@ describe('mediumZoom()', () => {
         expect(zoom.getOptions()).toEqual({
           margin: 24,
           background: '#BADA55',
+          loadingIndicatorColor: '#eee',
           scrollOffset: 124,
           container: null,
           template: null,
@@ -695,6 +703,7 @@ describe('getOptions()', () => {
 
     expect(zoom.getOptions()).toEqual({
       background: '#fff',
+      loadingIndicatorColor: '#eee',
       margin: 0,
       scrollOffset: 40,
       container: null,
@@ -707,6 +716,7 @@ describe('getOptions()', () => {
 
     expect(zoom.getOptions()).toEqual({
       background: '#000',
+      loadingIndicatorColor: '#eee',
       margin: 0,
       scrollOffset: 40,
       container: null,

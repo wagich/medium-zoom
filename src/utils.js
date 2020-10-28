@@ -50,6 +50,43 @@ export const createOverlay = background => {
   return overlay
 }
 
+export const createLoadingIndicator = color => {
+  const wrapper = document.createElement('div')
+  wrapper.classList.add('medium-zoom-loader')
+
+  const colorRgb = parseColor(color)
+  const ringColor = `rgba(${colorRgb[0]},${colorRgb[1]},${colorRgb[2]},0.2)`
+
+  const indicator = document.createElement('div')
+  indicator.style.borderTopColor = ringColor
+  indicator.style.borderRightColor = ringColor
+  indicator.style.borderBottomColor = ringColor
+  indicator.style.borderLeftColor = color
+
+  wrapper.appendChild(indicator)
+  return wrapper
+}
+
+// color parsing function from https://stackoverflow.com/a/21966100
+const parseColor = colorString => {
+  if (colorString.substr(0, 1) == '#') {
+    var collen = (colorString.length - 1) / 3
+    var fact = [17, 1, 0.062272][collen - 1]
+    return [
+      Math.round(parseInt(colorString.substr(1, collen), 16) * fact),
+      Math.round(parseInt(colorString.substr(1 + collen, collen), 16) * fact),
+      Math.round(
+        parseInt(colorString.substr(1 + 2 * collen, collen), 16) * fact
+      ),
+    ]
+  } else
+    return colorString
+      .split('(')[1]
+      .split(')')[0]
+      .split(',')
+      .map(x => +x)
+}
+
 export const cloneTarget = template => {
   const { top, left, width, height } = template.getBoundingClientRect()
   const clone = template.cloneNode()
