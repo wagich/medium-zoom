@@ -272,12 +272,14 @@ const mediumZoom = (selector, options = {}) => {
           const currentWidth = active.zoomedHd.width
           const correctedWidth = currentWidth * aspectRatio
           active.zoomedHd.style.width = `${correctedWidth}px`
+          active.zoomedHd.style.height = `${correctedWidth / aspectRatio}px`
           active.zoomedHd.style.marginLeft = `-${(correctedWidth -
             currentWidth) /
             2}px`
         } else {
           const currentHeight = active.zoomedHd.height
           const correctedHeight = currentHeight / aspectRatio
+          active.zoomedHd.style.width = `${correctedHeight * aspectRatio}px`
           active.zoomedHd.style.height = `${correctedHeight}px`
           active.zoomedHd.style.marginTop = `-${(correctedHeight -
             currentHeight) /
